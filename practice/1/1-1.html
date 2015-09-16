@@ -7,14 +7,16 @@
 <style type="text/css">
 	body {margin: 0; padding: 0;}
 </style>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
 	var startTime = new Date().getTime();
-	
+
 	for(var iters=0;timeElapsed < 1000;iters++){
-		timeElapsed = new Date().getTime() - startTime;
+		var timeElapsed = new Date().getTime() - startTime;
+
+		console.log(timeElapsed);
 	}
-	console.log(iters);
+	
 </script>
 </head>
 <body>
