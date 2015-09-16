@@ -9,9 +9,12 @@
 </style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script type="text/javascript">
-	$(function(){
-
-	});
+	var startTime = new Date().getTime();
+	
+	for(var iters=0;timeElapsed < 1000;iters++){
+		timeElapsed = new Date().getTime() - startTime;
+	}
+	console.log(iters);
 </script>
 </head>
 <body>
