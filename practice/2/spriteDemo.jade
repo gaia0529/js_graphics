@@ -7,17 +7,42 @@ html
 		|  
 
 		link(rel='stylesheet', type='text/css', href='/less/include.css')
+		style(type='text/css').
+			#draw-target {width: 480px; height: 320px; background-color: #ccf; position: relative;}
+
 		script(src='/js/jquery-1.11.3.min.js')
 		script(type='text/javascript').
 			var DHTMLSprite = function(params){
 				var width = params.width,
 					height = params.height,
-					imagesWidth = params.imagesWidth;
+					imagesWidth = params.imagesWidth,
+					$element = params.$drawTarget.append('</div>').find(':last'),
+					elemStyle = $element[0].style,
+					mathFloor = Math.floor;
+
+				$element.css({
+					position: 'absolute',
+					width: width,
+					height: height,
+					backgroundImage: 'url(' + params.images + ')'
+				});
+
+				var that = {
+					draw: function(x, y){
+						
+					}
+				}
 			}
-				
+
 			$(function(){
-				
+				var params = {
+					images: 'cogs.png',
+					imagesWidth: 256,
+					width: 64,
+					height: 64,
+					$drawTarget: $('#draw-target')
+				}
 			});
 			
 	body
-		p 스프라이트 인수  방식
+		#draw-target
