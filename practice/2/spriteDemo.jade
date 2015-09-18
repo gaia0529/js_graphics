@@ -36,7 +36,7 @@ html
 						index *= width;
 						var vOffset = -mathFloor(index / imagesWidth) * height;
 						var hOffset = -index % imagesWidth;
-						elemStyle.backgroundPosition = hOffset + 'px' + vOffset + 'px';
+						elemStyle.backgroundPosition = hOffset + 'px ' + vOffset + 'px';
 					},
 					show: function(){
 						elemStyle.display = 'block';
