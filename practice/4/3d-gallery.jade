@@ -1,0 +1,48 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		title DHTMLsprite
+		|  
+
+		link(rel='stylesheet', type='text/css', href='/less/include.css')
+		style(type='text/css').
+			
+		script(src='/js/jquery-1.11.3.min.js')
+		script(type='text/javascript').
+			var loadImage = function($image, src, callback){
+				$image.on('load', function(evt){
+					$image.off('load');
+					callback($image);
+				}).each(function(){
+					if($image[0].complete){
+						$image.trigger('load');
+					}
+				});
+
+				if($.browser.webkit){
+					$image.attr('src', '');
+				}
+				$image.attr('src', src);
+			}
+
+			$(function(){
+				
+			});
+			
+	body
+		.carousel
+			a(href='http://en.wikipedia.org/wiki/Self-portrait_(Leonardo_da_Vinci)', target='_blank')
+				img(src='/images/pic1.png', alt='Pic 1')
+			
+			img#pic2(src='/images/pic2.png', alt='Pic 2')
+			img(src='/images/pic3.png', alt='Pic 3')
+			img(src='/images/pic4.png', alt='Pic 4')
+			img(src='/images/pic5.png', alt='Pic 5')
+			img(src='/images/pic6.png', alt='Pic 6')
+			img(src='/images/pic7.png', alt='Pic 7')
+			img(src='/images/pic8.png', alt='Pic 8')
+			img(src='/images/pic9.png', alt='Pic 9')
+
+		
