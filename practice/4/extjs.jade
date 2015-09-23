@@ -1,0 +1,49 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		title DHTMLsprite
+		|  
+
+		link(rel='stylesheet', type='text/css', href='/less/include.css')
+		link(rel='stylesheet', type='text/css', href='http://extjs.cachefly.net/ext-3.3.1/resources/css/ext-all.css')
+		style(type='text/css').
+			
+		script(src='http://extjs.cachefly.net/ext-3.3.1/adapter/ext/ext-base.js')
+		script(src='http://extjs.cachefly.net/ext-3.3.1/ext-all.js')
+		script(type='text/javascript').
+			Ext.BLANK_IMAGE_URL = 'http://extjs.cachefly.net/ext-3.3.0/resources/images/default/s.gif';
+
+			Ext.onReady(function(){
+				var dateField = new Ext.form.DateField({
+					fieldLabel: 'Date Widget',
+					emptyText: 'Enter date...',
+					format: 'Y-m-d',
+					width: 128
+				}),
+
+				slider = new Ext.Slider({
+					width: 280,
+					minValue: 0,
+					maxValue: 100,
+					plugins: new Ext.slider.Tip()
+				}),
+
+				space = new Ext.Spacer({
+					height: 64
+				}),
+
+				win = new Ext.Window({
+					title: 'Ext JS Demo',
+					bodyStyle: 'padding: 10px',
+					width: 320,
+					height: 280,
+					items: [dateField, slider, space],
+					layout: 'form'
+				});
+
+				win.show();
+			});
+			
+	body

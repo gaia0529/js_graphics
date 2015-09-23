@@ -1,0 +1,33 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+		meta(http-equiv='X-UA-Compatible', content='IE=edge')
+		title DHTMLsprite
+		|  
+
+		link(rel='stylesheet', type='text/css', href='/less/include.css')
+		style(type='text/css').
+			#draw-target {width: 480px; height: 320px; background-color: #ccf; position: relative;}
+
+		script(src='/js/jquery-1.11.3.min.js')
+		script(type='text/javascript').
+			var DHTMLSprite = function(params){
+				var index = 4;
+				var vertOffset = -Math.floor(index * 64 / 256) * 64;
+				var horizOffset = -(index * 64);
+
+				var width = params.width,
+					height = params.height,
+					imagesWidth = params.imagesWidth,
+					$element = params.$drawTarget.append('<div/>').find(':last');
+
+				console.log(element);
+			};
+
+			$(function(){
+				DHTMLSprite($('#draw-target'));
+			});
+			
+	body
+		#draw-target
