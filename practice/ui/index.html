@@ -1,0 +1,192 @@
+<!DOCTYPE html->
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Carousel</title> 
+    <style type="text/css">
+        img { border:none;}
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    ;(function($){
+        function Carousel(selector, options){
+            this.$carousel = null;
+            this.$image = null;
+
+
+            this.init(selector);
+            this.initLoad(options.width, options.height);
+            this.createCarousel(options.frameRate, options.rotRate, options.minScale, options.radiusX, options.radiusY, options.width, options.height);
+        }
+
+        Carousel.prototype = {
+            init: function(selector){
+                this.$carousel = $(selector);
+                this.$image = this.$carousel.find('img');
+            },
+
+            initLoad: function(width, height){
+                this.$carousel.css({
+                    position: 'relative',
+                    width: width + 'px',
+                    height: height + 'px'
+                });
+            },
+
+            loadImage: function($image, src, callback){
+                $image.on('load', function(e){
+                    $image.off('load');
+                    callback($image);
+                }).each(function(){
+                    if($image[0].complete){
+                        $image.trigger('load');
+                    }
+                });
+
+                $image.attr('src', src);
+            },
+
+            createItem: function($image, angle, minScale, radiusX, radiusY, width, height){
+                var loaded = false,
+                    orgWidth,
+                    orgHeight,
+                    $originDiv,
+                    sizeRange = (1 - minScale) * 0.5,
+                    that;
+
+                $image.css({
+                    opacity: 0,
+                    position: 'absolute'
+                });
+
+                $originDiv = $image.wrap('<div style="position: absolute"></div>').parent();
+
+                that = {
+                    update: function(ang){
+                        var sinVal,
+                            scale,
+                            x,
+                            y;
+
+                        ang += angle;
+                        sinVal = Math.sin(ang);
+                        cosVal = Math.cos(ang);
+                        scale = ((sinVal + 1) * sizeRange) + minScale;
+                        x = ((cosVal * radiusX) * scale) + width / 2;
+                        y = ((sinVal * radiusY) * scale) + height / 2;
+
+                        $originDiv.css({
+                            left: (x >> 0) + 'px',
+                            top: (y >> 0) + 'px',
+                            zIndex: (scale * 100) >> 0
+                        });
+
+                        if(loaded){
+                            $image.css({
+                                width: (orgWidth * scale) + 'px',
+                                height: (orgHeight * scale) + 'px',
+                                top: ((-orgHeight * scale) / 2) + 'px',
+                                left: ((-orgWidth * scale) / 2) + 'px',
+                            });
+                        }
+                    }
+                };
+
+                this.loadImage($image, $image.attr('src'), function($image){
+                    loaded = true;
+
+                    orgWidth = $image.width();
+                    orgHeight = $image.height();
+
+                    $image.stop().animate({
+                        opacity: 1
+                    }, 1000);
+                });
+
+                return that;
+            },
+
+            createCarousel: function(frameRate, rotRate, minScale, radiusX, radiusY, width, height){
+                var items = [],
+                    rot = 0,
+                    pause = false,
+                    unpauseTimeout = 0,
+                    rotAmount = (Math.PI * 2) * (frameRate / rotRate),
+                    $images = this.$image,
+                    spacing = (Math.PI / $images.length) * 2,
+                    angle = Math.PI / 2;
+
+                for(var i = 0;i<$images.length;i++){
+                    var image = $images[i];
+                    var item = this.createItem($(image), angle, minScale, radiusX, radiusY, width, height);
+                    items.push(item);
+                    angle += spacing;
+                }
+
+                this.$carousel.on('mouseenter mouseleave', function (e) {
+                    if (e.type === 'mouseenter') {
+                        clearTimeout(unpauseTimeout);
+                        pause = true;
+                    } else {
+                        unpauseTimeout = setTimeout(function () {
+                            pause = false;
+                        }, 200);
+                    }
+
+                });
+
+                setInterval(function(){
+                    if(!pause){
+                        rot += rotAmount;
+                    }
+                    for(var i = 0;i<items.length;i++){
+                        items[i].update(rot);
+                    }
+                }, frameRate);
+            }
+        }
+
+        $.fn.carousel = function(options){
+            var options = $.extend({}, $.fn.carousel.defaults, options);
+
+            return this.each(function(index){
+                var carousel = new Carousel(this, options);
+            });
+        };
+
+        $.fn.carousel.defaults = {
+            radiusX: 230,
+            radiusY: 80,
+            width: 512,
+            height: 300,
+            frameRate: 30,
+            rotRate: 5000,
+            minScale: 0.6
+        };
+    })(jQuery);
+
+    $(function(){
+        $('.carousel').carousel();
+    });
+    </script>
+
+</head>
+<body>
+
+<div class="carousel" ><!-- This is the wrapping element -->
+    <a href="http://en.wikipedia.org/wiki/Self-portrait_(Leonardo_da_Vinci)" target="_blank">
+        <img src="pic1.png" alt="Pic 1"/>
+    </a>
+    <img id="pic2" src="pic2.png" alt="Pic 2"/>
+    <img src="pic3.png" alt="Pic 3"/>
+    <img src="pic4.png" alt="Pic 4"/>
+    <img src="pic5.png" alt="Pic 5"/>
+    <img src="pic6.png" alt="Pic 6"/>
+    <img src="pic7.png" alt="Pic 7"/>
+    <img src="pic8.png" alt="Pic 8"/>
+    <img src="pic9.png" alt="Pic 9"/>
+</div>
+
+
+</body>
+</html>

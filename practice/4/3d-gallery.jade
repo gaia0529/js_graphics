@@ -27,13 +27,40 @@ html
 				$image.attr('src', src);
 			}
 
+			var createItem = function($image, angle, options){
+				var loaded = false,
+					orgWidth,
+					orgHeight,
+					$origindiv,
+					sizeRange = (1 - options.minScale) * 0.5,
+					that; 
+
+				$image.css({
+					opacity: 0,
+					position: 'absolute'
+				});
+
+				$originDiv = $image.wrap('<div style="position: absolute;">').parent();
+
+				that = {
+					update: function(ang){
+						var sinVal, scale, x, y;
+
+						ang += angle;
+
+						sinVal = Math.sin(ang);
+						scale = ((sinVal + 1) * sizeRange) + options.minScale;
+					}
+				}
+			}
+
 			$(function(){
 				
 			});
 			
 	body
 		.carousel
-			a(href='http://en.wikipedia.org/wiki/Self-portrait_(Leonardo_da_Vinci)', target='_blank')
+			a(href='https://en.wikipedia.org/wiki/Portrait_of_a_man_in_red_chalk_(Leonardo)', target='_blank')
 				img(src='images/pic1.png', alt='Pic 1')
 			
 			img#pic2(src='images/pic2.png', alt='Pic 2')
